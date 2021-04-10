@@ -1,15 +1,25 @@
 package uni.iitu.beans;
 
+import java.util.Date;
+import java.util.List;
+
 public class PostBean implements java.io.Serializable {
     private Integer id;
-    private String title;
     private String content;
-    private String userId;
+    private Date publishedDate;
+    private Integer userId;
+    private UserBean user;
+    private List<CommentBean> comments;
 
-    public PostBean(String title, String content, String userId) {
-        this.title = title;
+    public PostBean() {
+    }
+
+    public PostBean(Integer id, String content, Date publishedDate, Integer userId, UserBean user) {
+        this.id = id;
         this.content = content;
+        this.publishedDate = publishedDate;
         this.userId = userId;
+        this.user = user;
     }
 
     public Integer getId() {
@@ -20,14 +30,6 @@ public class PostBean implements java.io.Serializable {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getContent() {
         return content;
     }
@@ -36,11 +38,35 @@ public class PostBean implements java.io.Serializable {
         this.content = content;
     }
 
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Date getPublishedDate() {
+        return publishedDate;
+    }
+
+    public void setPublishedDate(Date publishedDate) {
+        this.publishedDate = publishedDate;
+    }
+
+    public UserBean getUser() {
+        return user;
+    }
+
+    public void setUser(UserBean user) {
+        this.user = user;
+    }
+
+    public List<CommentBean> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentBean> comments) {
+        this.comments = comments;
     }
 }
