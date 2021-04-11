@@ -13,29 +13,6 @@
 <%@include file="navbar.jsp" %>
 <div class="container post-c">
     <p class="h2 mb-2">Posts</p>
-    <div class="post mb-4">
-        <div class="content">
-            <p class="h3">Adil</p>
-            <hr>
-            <div class="topic">
-                <p>How to get java class object values in jsp How
-                    to get java class object values in jsp How to get java class
-                    object values in jsp How to get java class BITCH</p>
-            </div>
-
-            <p class="posted-date">05.04.2021</p>
-        </div>
-    </div>
-    <div class="post mb-4">
-        <div class="content">
-            <p class="h3">Adil</p>
-            <hr>
-            <div class="topic">
-                <p>How to get java class object values in jsp </p>
-            </div>
-            <p class="posted-date">05.04.2021</p>
-        </div>
-    </div>
     <% for (int i = 0; i < postList.size(); i++) { %>
         <div class="post mb-4"
              onclick="location.href=
@@ -66,9 +43,15 @@
         cursor: pointer;
     }
 
+    .post:hover {
+        background-color: #d6cfcf;
+        transition: 0.8s;
+    }
+
     .post-c {
-        padding-top: 15px;
         background-color: #f7f5f0;
+        min-height: 720px;
+        padding: 15px;
     }
 
     .posted-date {

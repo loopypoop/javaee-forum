@@ -38,7 +38,9 @@ public class CommentDao {
 
             UserBean user = userDao.getUserById(userId);
 
-            CommentBean comment = new CommentBean(id, likes, postId, userId, content, publishedDate, user);
+            java.sql.Date sqlDate = new java.sql.Date(publishedDate.getTime());
+
+            CommentBean comment = new CommentBean(id, likes, postId, userId, content, sqlDate, user);
 
             comments.add(comment);
         }
@@ -71,11 +73,79 @@ public class CommentDao {
 
             UserBean user = userDao.getUserById(userId);
 
-            CommentBean comment = new CommentBean(id, likes, postId, userId, content, publishedDate, user);
+            java.sql.Date sqlDate = new java.sql.Date(publishedDate.getTime());
+
+            CommentBean comment = new CommentBean(id, likes, postId, userId, content, sqlDate, user);
 
             comments.add(comment);
         }
 
         return comments;
+    }
+
+    public int createComment(CommentBean comment) {
+
+        String sql = "INSERT INTO comments (content, published_date, like_counter, post_id, user_id) " +
+                "VALUES (?, ?, ?, ?, ?)";
+        int res = 0;
+
+        try {
+            Connection connection = db.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            statement.setString(1, comment.getContent());
+            statement.setDate(2, comment.getPublishedDate());
+            statement.setInt(3, comment.getLikes());
+            statement.setInt(4, comment.getPostId());
+            statement.setInt(5, comment.getUserId());
+
+            res = statement.executeUpdate();
+
+            connection.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return res;
+    }
+
+    public boolean likeComment(CommentBean comment) throws SQLException, ClassNotFoundException {
+        String sql = "UPDATE comments SET like_counter = ? WHERE id = ?";
+        Connection connection = db.getConnection();
+
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, comment.getLikes());
+        statement.setInt(2, comment.getId());
+
+        boolean liked = statement.executeUpdate() > 0;
+        statement.close();
+        connection.close();
+
+        return liked;
+    }
+
+    public CommentBean getCommentById(Integer id) throws SQLException, ClassNotFoundException {
+
+        UserDao userDao = new UserDao();
+
+        String sql = "SELECT * FROM comments WHERE id = ? LIMIT 1";
+        Connection connection = db.getConnection();
+
+        CommentBean comment = new CommentBean();
+
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, id);
+
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+
+        comment.setId(id);
+        comment.setUserId(resultSet.getInt("user_id"));
+        comment.setContent(resultSet.getString("content"));
+        comment.setLikes(resultSet.getInt("like_counter"));
+        comment.setPublishedDate(resultSet.getDate("published_date"));
+        comment.setPostId(resultSet.getInt("post_id"));
+
+        return comment;
     }
 }

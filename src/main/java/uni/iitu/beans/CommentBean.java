@@ -1,6 +1,6 @@
 package uni.iitu.beans;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class CommentBean implements java.io.Serializable {
 

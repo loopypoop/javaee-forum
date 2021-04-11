@@ -51,4 +51,28 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
         <url-pattern>/ParticularPostServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <description></description>
+        <display-name>CommentServlet</display-name>
+        <servlet-name>CommentServlet</servlet-name>
+        <servlet-class>uni.iitu.servlet.CommentServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CommentServlet</servlet-name>
+        <url-pattern>/CommentServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <description></description>
+        <display-name>LikeServlet</display-name>
+        <servlet-name>LikeServlet</servlet-name>
+        <servlet-class>uni.iitu.servlet.LikeServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>LikeServlet</servlet-name>
+        <url-pattern>/LikeServlet</url-pattern>
+    </servlet-mapping>
+
 </web-app>

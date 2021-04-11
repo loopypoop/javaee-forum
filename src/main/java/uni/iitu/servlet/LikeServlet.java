@@ -1,6 +1,8 @@
 package uni.iitu.servlet;
 
+import uni.iitu.beans.CommentBean;
 import uni.iitu.beans.PostBean;
+import uni.iitu.dao.CommentDao;
 import uni.iitu.dao.PostDao;
 
 import javax.servlet.RequestDispatcher;
@@ -12,29 +14,31 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet("/post")
-public class ParticularPostServlet extends HttpServlet {
+@WebServlet("/like")
+public class LikeServlet extends HttpServlet {
 
-    public ParticularPostServlet() { super(); }
+    public LikeServlet() { super(); }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        CommentDao commentDao = new CommentDao();
         PostDao postDao = new PostDao();
 
-        try {
-            Integer postId = 0;
+        Boolean isLiked = Boolean.valueOf(req.getParameter("like"));
+        Integer commentId = Integer.parseInt(req.getParameter("commentId"));
 
-            if (req.getParameter("postId") != null) {
-                postId = Integer.parseInt(req.getParameter("postId"));
-            }
-            PostBean post = postDao.getPostById(postId);
+        try {
+            CommentBean comment = commentDao.getCommentById(commentId);
+            if (isLiked)
+                comment.setLikes(comment.getLikes() + 1);
+            commentDao.likeComment(comment);
+
+            PostBean post = postDao.getPostById(comment.getPostId());
 
             req.setAttribute("post", post);
 
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("particular.jsp");
             requestDispatcher.forward(req, resp);
-
         } catch (SQLException | ClassNotFoundException ex) {
             throw new ServletException(ex);
         }

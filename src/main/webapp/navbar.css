@@ -36,4 +36,5 @@ li {
 
 .nav-link {
     cursor: pointer;
+    padding-top: 0;
 }

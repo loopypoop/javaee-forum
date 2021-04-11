@@ -6,4 +6,4 @@
         crossorigin="anonymous"></script>
 <script type="text/javascript"
         src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"></script>
-<link rel="stylesheet" href="navbar.css">
+<%--<link rel="stylesheet" href="navbar.css">--%>

@@ -33,31 +33,40 @@
             <p><%=comment.getContent()%></p>
         </div>
 
-        <p class="posted-date">
-            <%String commentDate = format.format(post.getPublishedDate());
-            out.print(commentDate); %></p>
+        <div class="d-flex justify-content-start">
+            <p class="posted-date">
+                <%String commentDate = format.format(comment.getPublishedDate());
+                    out.print(commentDate); %></p>
+            <% if (user.getId() != null) { %>
+            <form action="LikeServlet" method="get" class="ml-3 mb-2">
+                <input type="hidden" name="commentId" value="<%=comment.getId()%>">
+
+                <button type="submit" name="like" value="true" class="btn btn-dark">Likes <%=comment.getLikes()%></button>
+            </form>
+            <% } %>
+            <% if (user.getId() == null) { %>
+            <div class="ml-3 mb-2">
+                <button type="submit"  onclick="location.href='login.jsp'" class="btn btn-dark">Likes <%=comment.getLikes()%></button>
+            </div>
+            <% } %>
+        </div>
+
     </div>
     <% } %>
-    <div class="comment mt-4">
-        <p class="h5">Adil</p>
-        <div class="answer">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias asperiores aut dolorem esse excepturi
-                explicabo illum impedit iure laboriosam minus nihil non optio quidem, quisquam, ratione repellat
-                reprehenderit sint voluptatem?</p>
-        </div>
+    <% if (user.getId() != null) { %>
+    <form class="form-group" action="comment" method="post">
+        <input type="hidden" name="postId" value="<%=post.getId()%>">
+        <input type="hidden" name="userId" value="<%=user.getId()%>">
+        <label for="comment">Comment:</label>
+        <textarea name="comment" class="form-control" rows="5" id="comment"></textarea>
+        <br>
+        <button type="submit" class="btn btn-dark">Send</button>
+    </form>
+    <% } %>
 
-        <p class="posted-date">05.04.2021</p>
-    </div>
-    <div class="comment mt-4">
-        <p class="h5">Adil</p>
-        <div class="answer">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias asperiores aut dolorem esse excepturi
-                explicabo illum impedit iure laboriosam minus nihil non optio quidem, quisquam, ratione repellat
-                reprehenderit sint voluptatem?</p>
-        </div>
-
-        <p class="posted-date">05.04.2021</p>
-    </div>
+    <% if (user.getId() == null) { %>
+    <p class="require mt-5 h3">Log in if you want to leave comment</p>
+    <% } %>
 
 </div>
 </body>
@@ -100,7 +109,30 @@
 
     .post-c {
         background-color: #f7f5f0;
-        padding-top: 15px;
+        min-height: 720px;
+        padding: 15px;
+    }
+
+    .form-group {
+        width: 85%;
+        margin: 0 auto;
+    }
+
+    .btn {
+        padding: .150rem .45rem!important;
+    }
+
+    .require {
+        display: block;
+        width: 70%;
+        margin: 0 135px;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
     }
 
 </style>
